@@ -144,6 +144,13 @@ class SyntaxParser {
         if (lastToken.getType().equals(Token.Type.NUM)) {
             rpnElemList.add(new RPNNumber(Integer.parseInt(lastToken.getValue())));
             lastToken = null;
+        } else if (lastToken.getValue().equals("-")) {
+            lastToken = tokenIterator.next();
+            if (!lastToken.getType().equals(Token.Type.NUM))
+                throw new Exception("SYNTAX ERROR");
+            rpnElemList.add(new RPNNumber(Integer.parseInt(lastToken.getValue())));
+            rpnElemList.add(new RPNUnaryOperator(op -> -op));
+            lastToken = null;
         } else {
             expL();
         }
