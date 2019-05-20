@@ -1,5 +1,7 @@
 package com.intern;
 
+
+import java.util.IllegalFormatException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -16,19 +18,19 @@ class SyntaxParser {
         lastToken = null;
     }
 
-    Interpreter parseTokens(List<Token> tokenList) {
+    Interpreter parseTokens(List<Token> tokenList) throws Exception {
         tokenIterator = tokenList.listIterator();
         expL();
         return new Interpreter(rpnElemList);
     }
 
-    private void expL() {
+    private void expL() throws Exception{
         if (lastToken == null) {
             lastToken = tokenIterator.next();
         }
 
         if (!lastToken.getValue().equals("(")) {
-            throw new RuntimeException("SYNTAX ERROR");
+            throw new Exception("SYNTAX ERROR");
         }
         lastToken = null;
 
@@ -40,12 +42,12 @@ class SyntaxParser {
             lastToken = tokenIterator.next();
         }
         if (!lastToken.getValue().equals(")")) {
-            throw new RuntimeException("SYNTAX ERROR");
+            throw new Exception("SYNTAX ERROR");
         }
         lastToken = null;
     }
 
-    private void exp_L() {
+    private void exp_L() throws Exception  {
         if (lastToken == null) {
             lastToken = tokenIterator.next();
         }
@@ -73,12 +75,12 @@ class SyntaxParser {
         }
     }
 
-    private void expE () {
+    private void expE () throws Exception  {
         expT();
         exp_E();
     }
 
-    private void exp_E() {
+    private void exp_E() throws Exception  {
         if (lastToken == null) {
             lastToken = tokenIterator.next();
         }
@@ -100,12 +102,12 @@ class SyntaxParser {
     }
 
 
-    private void expT() {
+    private void expT() throws Exception  {
         expF();
         exp_T();
     }
 
-    private void exp_T() {
+    private void exp_T() throws Exception {
         if (lastToken == null) {
             lastToken = tokenIterator.next();
         }
@@ -133,7 +135,7 @@ class SyntaxParser {
         }
     }
 
-    private void expF() {
+    private void expF() throws Exception {
 
         if (lastToken == null) {
             lastToken = tokenIterator.next();
@@ -143,7 +145,7 @@ class SyntaxParser {
             rpnElemList.add(new RPNNumber(Integer.parseInt(lastToken.getValue())));
             lastToken = null;
         } else {
-            expE();
+            expL();
         }
 
     }

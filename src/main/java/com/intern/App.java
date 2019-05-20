@@ -22,6 +22,8 @@ public class App
             e.printStackTrace();
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
     }

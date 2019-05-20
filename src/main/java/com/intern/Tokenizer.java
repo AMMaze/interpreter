@@ -29,7 +29,7 @@ public class Tokenizer {
         this.tokenList = new LinkedList<>();
     }
 
-    private Token.Type checkType (String c) {
+    private Token.Type checkType (String c) throws Exception{
         if (SET_OF_BOP.contains(c))
             return Token.Type.BOP;
         if (SET_OF_UOP.contains(c))
@@ -40,20 +40,21 @@ public class Tokenizer {
             Integer.parseInt(c);
             return Token.Type.NUM;
         } catch (NumberFormatException e) {
-            throw new RuntimeException("SYNTAX ERROR");
+            throw new Exception("SYNTAX ERROR");
         }
     }
 
-    void parseInput () throws IOException {
+    void parseInput () throws IOException, Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         String line;
+        int lineNumber = 0;
         while ((line = reader.readLine()) != null) {
             String[] arr = line.split(String.format(WITH_DELIMITER, DELIMS));
             for (String it: arr) {
-                tokenList.add(new Token(it, checkType(it)));
+                tokenList.add(new Token(it, checkType(it), lineNumber));
             }
-
+            lineNumber++;
         }
     }
 

@@ -11,6 +11,7 @@ class Token {
 
     private String value;
     private Type type;
+    private int line;
 
     String getValue() {
         return value;
@@ -19,9 +20,14 @@ class Token {
         return type;
     }
 
-    Token(String v, Type t) {
+    int getLine() {
+        return line;
+    }
+
+    Token(String v, Type t, int l) {
         this.value = v;
         this.type = t;
+        this.line = l;
     }
 
 
