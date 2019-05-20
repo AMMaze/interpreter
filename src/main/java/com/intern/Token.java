@@ -1,7 +1,28 @@
 package com.intern;
 
-public class Token {
+class Token {
 
-    public enum
+    public enum Type {
+        NUM,
+        BOP,
+        UOP,
+        BRACE
+    }
+
+    private String value;
+    private Type type;
+
+    String getValue() {
+        return value;
+    }
+    Type getType() {
+        return type;
+    }
+
+    Token(String v, Type t) {
+        this.value = v;
+        this.type = t;
+    }
+
 
 }

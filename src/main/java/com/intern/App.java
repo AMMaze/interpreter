@@ -1,5 +1,7 @@
 package com.intern;
 
+import java.io.IOException;
+
 /**
  * Hello world!
  *
@@ -8,6 +10,12 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        Tokenizer tokenizer = new Tokenizer();
+        try {
+            tokenizer.parseInput();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(tokenizer.toString());
     }
 }
