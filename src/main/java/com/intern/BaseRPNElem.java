@@ -10,6 +10,13 @@ public abstract class BaseRPNElem {
 
     static private Stack<Integer> argsStack = new Stack<>();
 
+    static int getResult() {
+        int res = argsStack.pop();
+        if (!argsStack.empty())
+            throw new RuntimeException("Error: multiple results");
+        return res;
+    }
+
     void pushArg(int arg) {
         argsStack.push(arg);
     }

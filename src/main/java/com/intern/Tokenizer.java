@@ -67,4 +67,7 @@ public class Tokenizer {
         return result.toString();
     }
 
+    List<Token> getTokenList() {
+        return tokenList;
+    }
 }
