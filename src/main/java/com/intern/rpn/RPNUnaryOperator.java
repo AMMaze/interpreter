@@ -1,28 +1,28 @@
-package com.intern;
+package com.intern.rpn;
 
 import java.util.EmptyStackException;
-import java.util.function.IntBinaryOperator;
+import java.util.function.IntUnaryOperator;
 
-public class RPNBiOperator extends RPNOperator {
+public class RPNUnaryOperator extends RPNOperator {
+
 
     public Type checkType () {
         return super.checkType();
     }
 
-    private IntBinaryOperator operator;
+    private IntUnaryOperator operator;
 
     public void Evaluate() {
-        int op1, op2;
+        int op1;
         try {
-            op2 = popArg();
             op1 = popArg();
         } catch (EmptyStackException e) {
             throw new RuntimeException("Incorrect number of operands");
         }
-        pushArg(operator.applyAsInt(op1, op2));
+        pushArg(operator.applyAsInt(op1));
     }
 
-    RPNBiOperator (IntBinaryOperator op) {
+    public RPNUnaryOperator (IntUnaryOperator op) {
         operator = op;
     }
 

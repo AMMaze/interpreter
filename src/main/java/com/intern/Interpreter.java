@@ -1,5 +1,7 @@
 package com.intern;
 
+import com.intern.rpn.BaseRPNElem;
+
 import java.util.List;
 
 class Interpreter {

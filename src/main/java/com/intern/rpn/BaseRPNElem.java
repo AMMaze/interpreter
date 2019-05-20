@@ -1,4 +1,4 @@
-package com.intern;
+package com.intern.rpn;
 
 import java.util.Stack;
 
@@ -10,7 +10,7 @@ public abstract class BaseRPNElem {
 
     static private Stack<Integer> argsStack = new Stack<>();
 
-    static int getResult() {
+    static public int getResult() {
         int res = argsStack.pop();
         if (!argsStack.empty())
             throw new RuntimeException("Error: multiple results");

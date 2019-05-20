@@ -1,4 +1,4 @@
-package com.intern;
+package com.intern.rpn;
 
 public class RPNNumber extends BaseRPNElem {
 
