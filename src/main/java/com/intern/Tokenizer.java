@@ -40,7 +40,7 @@ public class Tokenizer {
             Integer.parseInt(c);
             return Token.Type.NUM;
         } catch (NumberFormatException e) {
-            throw new NumberFormatException("Incorrect token: " + c);
+            throw new RuntimeException("SYNTAX ERROR");
         }
     }
 

@@ -10,16 +10,19 @@ public class App
         Tokenizer tokenizer = new Tokenizer();
         try {
             tokenizer.parseInput();
+            System.out.println(tokenizer.toString());
+
+            SyntaxParser parser = new SyntaxParser();
+
+            Interpreter interpreter = parser.parseTokens(tokenizer.getTokenList());
+
+            System.out.println("Result: " + interpreter.evaluateRPN());
+
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
         }
-        System.out.println(tokenizer.toString());
-
-        SyntaxParser parser = new SyntaxParser();
-
-        Interpreter interpreter = parser.parseTokens(tokenizer.getTokenList());
-
-        System.out.println("Result: " + interpreter.evaluateRPN());
 
     }
 }

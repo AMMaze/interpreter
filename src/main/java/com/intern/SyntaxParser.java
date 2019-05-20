@@ -28,7 +28,7 @@ class SyntaxParser {
         }
 
         if (!lastToken.getValue().equals("(")) {
-            throw new RuntimeException("Incorrect expression");
+            throw new RuntimeException("SYNTAX ERROR");
         }
         lastToken = null;
 
@@ -40,7 +40,7 @@ class SyntaxParser {
             lastToken = tokenIterator.next();
         }
         if (!lastToken.getValue().equals(")")) {
-            throw new RuntimeException("Incorrect expression");
+            throw new RuntimeException("SYNTAX ERROR");
         }
         lastToken = null;
     }
@@ -49,7 +49,6 @@ class SyntaxParser {
         if (lastToken == null) {
             lastToken = tokenIterator.next();
         }
-//        Token token = tokenIterator.next();
         if (lastToken.getValue().equals("+")) {
             lastToken = null;
 
@@ -77,7 +76,6 @@ class SyntaxParser {
         if (lastToken == null) {
             lastToken = tokenIterator.next();
         }
-//        Token token = tokenIterator.next();
         if (lastToken.getValue().equals("*")) {
             lastToken = null;
 
