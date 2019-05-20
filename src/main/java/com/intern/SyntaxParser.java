@@ -18,11 +18,11 @@ class SyntaxParser {
 
     Interpreter parseTokens(List<Token> tokenList) {
         tokenIterator = tokenList.listIterator();
-        expE();
+        expL();
         return new Interpreter(rpnElemList);
     }
 
-    private void expE () {
+    private void expL() {
         if (lastToken == null) {
             lastToken = tokenIterator.next();
         }
@@ -32,9 +32,9 @@ class SyntaxParser {
         }
         lastToken = null;
 
-        expT();
+        expE();
 
-        exp_E();
+        exp_L();
 
         if (lastToken == null) {
             lastToken = tokenIterator.next();
@@ -43,6 +43,39 @@ class SyntaxParser {
             throw new RuntimeException("SYNTAX ERROR");
         }
         lastToken = null;
+    }
+
+    private void exp_L() {
+        if (lastToken == null) {
+            lastToken = tokenIterator.next();
+        }
+        if (lastToken.getValue().equals("<")) {
+            lastToken = null;
+
+            expE();
+            exp_L();
+
+            rpnElemList.add(new RPNBiOperator((int op1, int op2) -> op1 < op2 ? 1 : 0));
+        } else if (lastToken.getValue().equals(">")) {
+            lastToken = null;
+
+            expE();
+            exp_L();
+
+            rpnElemList.add(new RPNBiOperator((int op1, int op2) -> op1 > op2 ? 1 : 0));
+        } else if (lastToken.getValue().equals("=")) {
+            lastToken = null;
+
+            expE();
+            exp_L();
+
+            rpnElemList.add(new RPNBiOperator((int op1, int op2) -> op1 == op2 ? 1 : 0));
+        }
+    }
+
+    private void expE () {
+        expT();
+        exp_E();
     }
 
     private void exp_E() {

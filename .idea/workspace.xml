@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4c043b24-0dd2-410a-9244-4eb0fd617bd8" name="Default Changelist" comment="Implemented expression interpreter">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/intern/Interpreter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/intern/SyntaxParser.java" afterDir="false" />
+    <list default="true" id="4c043b24-0dd2-410a-9244-4eb0fd617bd8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/intern/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/intern/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/intern/BaseRPNElem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/intern/BaseRPNElem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/intern/Tokenizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/intern/Tokenizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/intern/SyntaxParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/intern/SyntaxParser.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -26,8 +22,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/intern/App.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="19" selection-start-line="19" selection-end-line="19" />
+            <state relative-caret-position="240">
+              <caret line="16" column="59" selection-start-line="16" selection-start-column="59" selection-end-line="16" selection-end-column="59" />
             </state>
           </provider>
         </entry>
@@ -124,11 +120,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/intern/SyntaxParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="73">
-              <caret line="80" column="8" selection-start-line="80" selection-start-column="8" selection-end-line="80" selection-end-column="8" />
+            <state relative-caret-position="-740">
+              <caret line="14" column="29" lean-forward="true" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -136,11 +132,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/intern/Tokenizer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="69" column="4" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="4" />
+            <state relative-caret-position="105">
+              <caret line="42" column="38" lean-forward="true" selection-start-line="42" selection-start-column="38" selection-end-line="42" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2167#2168#0" expanded="true" />
@@ -185,11 +181,11 @@
         <option value="$PROJECT_DIR$/src/main/java/com/intern/RPNNumber.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/intern/RPNBiOperator.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/intern/RPNUnaryOperator.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/intern/App.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/intern/Interpreter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/intern/SyntaxParser.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/intern/BaseRPNElem.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/intern/Tokenizer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/intern/App.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/intern/SyntaxParser.java" />
       </list>
     </option>
   </component>
@@ -325,7 +321,21 @@
       <option name="project" value="LOCAL" />
       <updated>1558377575901</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Implemented expression interpreter">
+      <created>1558381683330</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1558381683330</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Fixed error messages">
+      <created>1558382873821</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1558382873821</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -346,12 +356,12 @@
       <window_info id="UI Designer" />
       <window_info id="Capture Tool" />
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Terminal" weight="0.32840723" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Messages" visible="true" weight="0.32840723" />
+      <window_info anchor="bottom" id="Messages" visible="true" weight="0.32840723" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32840723" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32840723" />
@@ -374,14 +384,15 @@
     <MESSAGE value="Added tokenizer" />
     <MESSAGE value="Added hierarchy for Reverse Polish Notation list elements" />
     <MESSAGE value="Implemented expression interpreter" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented expression interpreter" />
+    <MESSAGE value="Fixed error messages" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed error messages" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/intern/App.java</url>
-          <line>19</line>
+          <line>25</line>
           <properties />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
@@ -466,13 +477,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/intern/App.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/intern/Interpreter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -480,16 +484,6 @@
           <folding>
             <element signature="e#171#172#0" expanded="true" />
             <element signature="e#209#210#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/intern/SyntaxParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="73">
-          <caret line="80" column="8" selection-start-line="80" selection-start-column="8" selection-end-line="80" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -509,12 +503,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/intern/Tokenizer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="69" column="4" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="4" />
+        <state relative-caret-position="105">
+          <caret line="42" column="38" lean-forward="true" selection-start-line="42" selection-start-column="38" selection-end-line="42" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2167#2168#0" expanded="true" />
             <element signature="e#2199#2200#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/intern/App.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="59" selection-start-line="16" selection-start-column="59" selection-end-line="16" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/intern/SyntaxParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-740">
+          <caret line="14" column="29" lean-forward="true" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
