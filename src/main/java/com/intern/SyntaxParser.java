@@ -32,6 +32,10 @@ class SyntaxParser {
         return new Interpreter(rpnElemList);
     }
 
+    private void funcList() throws SyntaxException {
+
+    }
+
     private void expL() throws SyntaxException{
         if (lastToken == null) {
             lastToken = tokenIterator.next();
@@ -61,7 +65,7 @@ class SyntaxParser {
             }
             if (!lastToken.getValue().equals("]")
                     || !tokenIterator.next().getValue().equals("?")
-                    || !tokenIterator.next().getValue().equals("(")) {
+                    || !tokenIterator.next().getValue().equals("{")) {
                 throw new SyntaxException();
             }
             lastToken = null;
@@ -75,9 +79,9 @@ class SyntaxParser {
             if (lastToken == null) {
                 lastToken = tokenIterator.next();
             }
-            if (!lastToken.getValue().equals(")")
+            if (!lastToken.getValue().equals("}")
                     || !tokenIterator.next().getValue().equals(":")
-                    || !tokenIterator.next().getValue().equals("(")) {
+                    || !tokenIterator.next().getValue().equals("{")) {
                 throw new SyntaxException();
             }
             lastToken = null;
@@ -93,7 +97,7 @@ class SyntaxParser {
             if (lastToken == null) {
                 lastToken = tokenIterator.next();
             }
-            if (!lastToken.getValue().equals(")")) {
+            if (!lastToken.getValue().equals("}")) {
                 throw new SyntaxException();
             }
             lastToken = null;

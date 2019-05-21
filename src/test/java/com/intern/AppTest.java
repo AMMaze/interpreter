@@ -207,7 +207,7 @@ public class AppTest
         InputStream stdin = System.in;
         PrintStream stdout = System.out;
         try {
-            System.setIn(new ByteArrayInputStream("[(3>2)]?((1+3)):((4*3))".getBytes()));
+            System.setIn(new ByteArrayInputStream("[(3>2)]?{(1+3)}:{(4*3)}".getBytes()));
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);

@@ -4,8 +4,7 @@ class Token {
 
     public enum Type {
         NUM,
-        BOP,
-        UOP,
+        OP,
         BRACKET,
         COND
     }

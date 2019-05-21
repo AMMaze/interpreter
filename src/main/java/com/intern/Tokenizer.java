@@ -7,19 +7,15 @@ import java.util.*;
 
 public class Tokenizer {
     static private final String WITH_DELIMITER = "((?<=%1$s)|(?=%1$s))";
-    static private final String DELIMS = "[()+\\-*/%<>=\\[\\]\\?]";
+    static private final String DELIMS = "[()+\\-*/%<>=\\[\\]\\?{}]";
     static private final Set<String> SET_OF_BOP = Collections.unmodifiableSet(
             new HashSet<>(Arrays.asList(
-                    "+", "-", "/", "*", "%", "<", ">", "="
+                    "+", "-", "/", "*", "%", "<", ">", "=", ","
             ))
-    );
-    static private final Set<String> SET_OF_UOP = Collections.unmodifiableSet(
-            new HashSet<>(Arrays.asList(
-                    "-"))
     );
     static private final Set<String> SET_OF_BRACKETS = Collections.unmodifiableSet(
             new HashSet<>(Arrays.asList(
-                    "(", ")", "[", "]"
+                    "(", ")", "[", "]", "{", "}"
             ))
     );
     static private final Set<String> SET_OF_CONDITIONALS = Collections.unmodifiableSet(
@@ -39,9 +35,7 @@ public class Tokenizer {
 
     private Token.Type checkType (String c) throws SyntaxException{
         if (SET_OF_BOP.contains(c))
-            return Token.Type.BOP;
-        if (SET_OF_UOP.contains(c))
-            return Token.Type.UOP;
+            return Token.Type.OP;
         if (SET_OF_BRACKETS.contains(c))
             return Token.Type.BRACKET;
         if (SET_OF_CONDITIONALS.contains(c))

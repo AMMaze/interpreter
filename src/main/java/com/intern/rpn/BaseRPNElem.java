@@ -6,7 +6,9 @@ public abstract class BaseRPNElem {
     public enum Type {
         NUM,
         OP,
-        JMP
+        JMP,
+        VAR,
+        FUN
     }
 
     protected int jumpTarget;
