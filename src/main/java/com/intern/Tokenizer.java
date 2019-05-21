@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Tokenizer {
     static private final String WITH_DELIMITER = "((?<=%1$s)|(?=%1$s))";
-    static private final String DELIMS = "[()+\\-*/%<>=]";
+    static private final String DELIMS = "[()+\\-*/%<>=\\[\\]\\?]";
     static private final Set<String> SET_OF_BOP = Collections.unmodifiableSet(
             new HashSet<>(Arrays.asList(
                     "+", "-", "/", "*", "%", "<", ">", "="
@@ -17,9 +17,14 @@ public class Tokenizer {
             new HashSet<>(Arrays.asList(
                     "-"))
     );
-    static private final Set<String> SET_OF_BRACES = Collections.unmodifiableSet(
+    static private final Set<String> SET_OF_BRACKETS = Collections.unmodifiableSet(
             new HashSet<>(Arrays.asList(
-                    "(", ")"
+                    "(", ")", "[", "]"
+            ))
+    );
+    static private final Set<String> SET_OF_CONDITIONALS = Collections.unmodifiableSet(
+            new HashSet<>(Arrays.asList(
+                    "?", ":"
             ))
     );
 
@@ -34,8 +39,10 @@ public class Tokenizer {
             return Token.Type.BOP;
         if (SET_OF_UOP.contains(c))
             return Token.Type.UOP;
-        if (SET_OF_BRACES.contains(c))
-            return Token.Type.BRACE;
+        if (SET_OF_BRACKETS.contains(c))
+            return Token.Type.BRACKET;
+        if (SET_OF_CONDITIONALS.contains(c))
+            return Token.Type.COND;
         try {
             Integer.parseInt(c);
             return Token.Type.NUM;

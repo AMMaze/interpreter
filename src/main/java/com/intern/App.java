@@ -10,7 +10,7 @@ public class App
         Tokenizer tokenizer = new Tokenizer();
         try {
             tokenizer.parseInput();
-            //System.out.println(tokenizer.toString());
+            System.out.println(tokenizer.toString());
 
             SyntaxParser parser = new SyntaxParser();
 

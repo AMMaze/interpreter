@@ -6,7 +6,8 @@ class Token {
         NUM,
         BOP,
         UOP,
-        BRACE
+        BRACKET,
+        COND
     }
 
     private String value;

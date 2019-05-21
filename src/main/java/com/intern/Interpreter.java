@@ -18,7 +18,12 @@ class Interpreter {
         ListIterator<BaseRPNElem> iterator = rpnList.listIterator();
         int jmp = 0;
         while (iterator.hasNext()) {
-            jmp = jmp == 0 ? iterator.next().nextEvaluate() : jmp - 1;
+            if (jmp == 0) {
+                jmp = iterator.next().nextEvaluate();
+            } else {
+                iterator.next();
+                jmp--;
+            }
         }
         return BaseRPNElem.getResult();
     }

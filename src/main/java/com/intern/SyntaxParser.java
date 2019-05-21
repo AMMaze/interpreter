@@ -1,10 +1,7 @@
 package com.intern;
 
 
-import com.intern.rpn.BaseRPNElem;
-import com.intern.rpn.RPNBiOperator;
-import com.intern.rpn.RPNNumber;
-import com.intern.rpn.RPNUnaryOperator;
+import com.intern.rpn.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,22 +30,82 @@ class SyntaxParser {
             lastToken = tokenIterator.next();
         }
 
-        if (!lastToken.getValue().equals("(")) {
-            throw new Exception("SYNTAX ERROR");
-        }
-        lastToken = null;
+        if (lastToken.getValue().equals("(")) {
+            lastToken = null;
 
-        expE();
+            expE();
 
-        exp_L();
+            exp_L();
 
-        if (lastToken == null) {
+            if (lastToken == null) {
+                lastToken = tokenIterator.next();
+            }
+            if (!lastToken.getValue().equals(")")) {
+                throw new Exception("SYNTAX ERROR");
+            }
+            lastToken = null;
+        } else if (lastToken.getValue().equals("[")) {
+            lastToken = null;
+
+            expL();
+
+            if (lastToken == null) {
+                lastToken = tokenIterator.next();
+            }
+            if (!lastToken.getValue().equals("]")
+                    || !tokenIterator.next().getValue().equals("?")
+                    || !tokenIterator.next().getValue().equals("(")) {
+                throw new Exception("SYNTAX ERROR");
+            }
+            lastToken = null;
+
+            RPNJumpZero jumpToElse = new RPNJumpZero();
+            rpnElemList.add(jumpToElse);
+            int jumpToElseIdx = rpnElemList.size();
+
+            expL();
+
+            if (lastToken == null) {
+                lastToken = tokenIterator.next();
+            }
+            if (!lastToken.getValue().equals(")")
+                    || !tokenIterator.next().getValue().equals(":")
+                    || !tokenIterator.next().getValue().equals("(")) {
+                throw new Exception("SYNTAX ERROR");
+            }
+            lastToken = null;
+
+            RPNJump jumpAfterElse = new RPNJump();
+            rpnElemList.add(jumpAfterElse);
+            //rpnElemList.add(new RPNNOP());
+            int jumpAfterElseIdx = rpnElemList.size();
+            jumpToElse.setJump(jumpAfterElseIdx - jumpToElseIdx);
+
+            expL();
+
+            if (lastToken == null) {
+                lastToken = tokenIterator.next();
+            }
+            if (!lastToken.getValue().equals(")")) {
+                throw new Exception("SYNTAX ERROR");
+            }
+            lastToken = null;
+
+            jumpAfterElse.setJump(rpnElemList.size() - jumpAfterElseIdx);
+            rpnElemList.add(new RPNNOP());
+        } else  if (lastToken.getType().equals(Token.Type.NUM)) {
+            rpnElemList.add(new RPNNumber(Integer.parseInt(lastToken.getValue())));
+            lastToken = null;
+        } else if (lastToken.getValue().equals("-")) {
             lastToken = tokenIterator.next();
-        }
-        if (!lastToken.getValue().equals(")")) {
+            if (!lastToken.getType().equals(Token.Type.NUM))
+                throw new Exception("SYNTAX ERROR");
+            rpnElemList.add(new RPNNumber(Integer.parseInt(lastToken.getValue())));
+            rpnElemList.add(new RPNUnaryOperator(op -> -op));
+            lastToken = null;
+        }else {
             throw new Exception("SYNTAX ERROR");
         }
-        lastToken = null;
     }
 
     private void exp_L() throws Exception  {
@@ -141,23 +198,25 @@ class SyntaxParser {
 
     private void expF() throws Exception {
 
-        if (lastToken == null) {
-            lastToken = tokenIterator.next();
-        }
+//        if (lastToken == null) {
+//            lastToken = tokenIterator.next();
+//        }
+//
+//        if (lastToken.getType().equals(Token.Type.NUM)) {
+//            rpnElemList.add(new RPNNumber(Integer.parseInt(lastToken.getValue())));
+//            lastToken = null;
+//        } else if (lastToken.getValue().equals("-")) {
+//            lastToken = tokenIterator.next();
+//            if (!lastToken.getType().equals(Token.Type.NUM))
+//                throw new Exception("SYNTAX ERROR");
+//            rpnElemList.add(new RPNNumber(Integer.parseInt(lastToken.getValue())));
+//            rpnElemList.add(new RPNUnaryOperator(op -> -op));
+//            lastToken = null;
+//        } else {
+//            expL();
+//        }
 
-        if (lastToken.getType().equals(Token.Type.NUM)) {
-            rpnElemList.add(new RPNNumber(Integer.parseInt(lastToken.getValue())));
-            lastToken = null;
-        } else if (lastToken.getValue().equals("-")) {
-            lastToken = tokenIterator.next();
-            if (!lastToken.getType().equals(Token.Type.NUM))
-                throw new Exception("SYNTAX ERROR");
-            rpnElemList.add(new RPNNumber(Integer.parseInt(lastToken.getValue())));
-            rpnElemList.add(new RPNUnaryOperator(op -> -op));
-            lastToken = null;
-        } else {
-            expL();
-        }
+        expL();
 
     }
 }
