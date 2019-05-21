@@ -5,7 +5,14 @@ import java.util.Stack;
 public abstract class BaseRPNElem {
     public enum Type {
         NUM,
-        OP
+        OP,
+        JMP
+    }
+
+    protected int jumpTarget;
+
+    BaseRPNElem() {
+        jumpTarget = 0;
     }
 
     static private Stack<Integer> argsStack = new Stack<>();
@@ -28,4 +35,9 @@ public abstract class BaseRPNElem {
     public abstract Type checkType();
 
     public abstract void Evaluate();
+
+    public int nextEvaluate() {
+        this.Evaluate();
+        return jumpTarget;
+    }
 }
