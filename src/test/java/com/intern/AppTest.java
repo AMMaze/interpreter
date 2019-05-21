@@ -31,7 +31,7 @@ public class AppTest
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);
             App.main(null);
-            Assert.assertEquals("Result: 2", baos.toString().trim());
+            Assert.assertEquals("2", baos.toString().trim());
         } finally {
             System.setIn(stdin);
             System.setOut(stdout);
@@ -43,7 +43,7 @@ public class AppTest
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);
             App.main(null);
-            Assert.assertEquals("Result: 0", baos.toString().trim());
+            Assert.assertEquals("0", baos.toString().trim());
         } finally {
             System.setIn(stdin);
             System.setOut(stdout);
@@ -55,7 +55,7 @@ public class AppTest
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);
             App.main(null);
-            Assert.assertEquals("Result: 2", baos.toString().trim());
+            Assert.assertEquals("2", baos.toString().trim());
         } finally {
             System.setIn(stdin);
             System.setOut(stdout);
@@ -67,7 +67,7 @@ public class AppTest
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);
             App.main(null);
-            Assert.assertEquals("Result: 1", baos.toString().trim());
+            Assert.assertEquals("1", baos.toString().trim());
         } finally {
             System.setIn(stdin);
             System.setOut(stdout);
@@ -79,7 +79,7 @@ public class AppTest
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);
             App.main(null);
-            Assert.assertEquals("Result: 1", baos.toString().trim());
+            Assert.assertEquals("1", baos.toString().trim());
         } finally {
             System.setIn(stdin);
             System.setOut(stdout);
@@ -91,7 +91,7 @@ public class AppTest
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);
             App.main(null);
-            Assert.assertEquals("Result: 0", baos.toString().trim());
+            Assert.assertEquals("0", baos.toString().trim());
         } finally {
             System.setIn(stdin);
             System.setOut(stdout);
@@ -103,7 +103,7 @@ public class AppTest
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);
             App.main(null);
-            Assert.assertEquals("Result: 1", baos.toString().trim());
+            Assert.assertEquals("1", baos.toString().trim());
         } finally {
             System.setIn(stdin);
             System.setOut(stdout);
@@ -115,7 +115,7 @@ public class AppTest
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);
             App.main(null);
-            Assert.assertEquals("Result: 1", baos.toString().trim());
+            Assert.assertEquals("1", baos.toString().trim());
         } finally {
             System.setIn(stdin);
             System.setOut(stdout);
@@ -132,7 +132,7 @@ public class AppTest
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);
             App.main(null);
-            Assert.assertEquals("Result: -1", baos.toString().trim());
+            Assert.assertEquals("-1", baos.toString().trim());
         } finally {
             System.setIn(stdin);
             System.setOut(stdout);
@@ -149,7 +149,7 @@ public class AppTest
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);
             App.main(null);
-            Assert.assertEquals("Result: 1", baos.toString().trim());
+            Assert.assertEquals("1", baos.toString().trim());
         } finally {
             System.setIn(stdin);
             System.setOut(stdout);
@@ -166,7 +166,7 @@ public class AppTest
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);
             App.main(null);
-            Assert.assertEquals("Result: -14", baos.toString().trim());
+            Assert.assertEquals("-14", baos.toString().trim());
         } finally {
             System.setIn(stdin);
             System.setOut(stdout);
@@ -183,7 +183,7 @@ public class AppTest
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);
             App.main(null);
-            Assert.assertEquals("Result: 0", baos.toString().trim());
+            Assert.assertEquals("0", baos.toString().trim());
         } finally {
             System.setIn(stdin);
             System.setOut(stdout);
@@ -195,7 +195,7 @@ public class AppTest
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);
             App.main(null);
-            Assert.assertEquals("Result: 0", baos.toString().trim());
+            Assert.assertEquals("0", baos.toString().trim());
         } finally {
             System.setIn(stdin);
             System.setOut(stdout);
@@ -212,7 +212,7 @@ public class AppTest
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);
             App.main(null);
-            Assert.assertEquals("Result: 4", baos.toString().trim());
+            Assert.assertEquals("4", baos.toString().trim());
         } finally {
             System.setIn(stdin);
             System.setOut(stdout);
@@ -259,4 +259,25 @@ public class AppTest
             System.setOut(stdout);
         }
     }
+
+    @Test
+    public void testFunctions() {
+        InputStream stdin = System.in;
+        PrintStream stdout = System.out;
+        try {
+            System.setIn(new ByteArrayInputStream
+                    (("f(x)={(x*10)}\n" +
+                            "g(x)={(f(x)+f((x/2)))}\n" +
+                            "g(10)").getBytes()));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream ps = new PrintStream(baos);
+            System.setOut(ps);
+            App.main(null);
+            Assert.assertEquals("150", baos.toString().trim());
+        } finally {
+            System.setIn(stdin);
+            System.setOut(stdout);
+        }
+    }
+
 }

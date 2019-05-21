@@ -13,4 +13,10 @@ public class RPNJump extends BaseRPNElem {
     public void Evaluate() {
     }
 
+    public RPNJump() {}
+
+    public RPNJump(int idx) {
+        jumpTarget = idx;
+    }
+
 }

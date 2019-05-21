@@ -16,4 +16,8 @@ public class RPNNumber extends BaseRPNElem {
         value = v;
     }
 
+    public void setValue(int v) {
+        value = v;
+    }
+
 }

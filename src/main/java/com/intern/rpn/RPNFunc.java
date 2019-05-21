@@ -26,9 +26,13 @@ public class RPNFunc extends BaseRPNElem {
     public void Evaluate() {
         int op;
         try {
-            for (String var : varPos) {
+//            for (String var : varPos) {
+//                op = popArg();
+//                varVal.put(var, op);
+//            }
+            for (int i = varPos.size() - 1; i >=0 ;i--) {
                 op = popArg();
-                varVal.put(var, op);
+                varVal.put(varPos.get(i), op);
             }
         } catch (EmptyStackException e) {
             throw new RuntimeException("Incorrect number of operands");

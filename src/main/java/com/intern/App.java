@@ -9,13 +9,13 @@ public class App
         Tokenizer tokenizer = new Tokenizer();
         try {
             tokenizer.parseInput();
-            System.out.println(tokenizer.toString());
+//            System.out.println(tokenizer.toString());
 
             SyntaxParser parser = new SyntaxParser();
 
             Interpreter interpreter = parser.parseTokens(tokenizer.getTokenList());
 
-            System.out.println("Result: " + interpreter.evaluateRPN());
+            System.out.println(interpreter.evaluateRPN());
 
         } catch (IOException e) {
             e.printStackTrace();

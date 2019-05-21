@@ -9,21 +9,20 @@ class SyntaxParser {
 
     private List<BaseRPNElem> rpnElemList;
     private ListIterator<Token> tokenIterator;
-    //private List<List<BaseRPNElem>> functionsList;
-    private Set<RPNFunc> functions;
+    private Map<String, RPNFunc> functions;
     private Token lastToken;
     private int startProg;
-    private Map<String, Integer> funcArgs;
     private RPNFunc currentFunc;
+    private int argNum;
 
     SyntaxParser() {
         rpnElemList = new LinkedList<>();
         tokenIterator = null;
         lastToken = null;
         startProg = 0;
-        funcArgs = null;
         currentFunc = null;
-        functions = new HashSet<>();
+        functions = new HashMap<>();
+        argNum = 0;
     }
 
     Interpreter parseTokens(List<Token> tokenList) throws SyntaxException {
@@ -47,11 +46,10 @@ class SyntaxParser {
 
         if (lastToken.getType().equals(Token.Type.ID)) {
 
+            if (functions.containsKey(lastToken.getValue()))
+                return;
             currentFunc = new RPNFunc(lastToken.getValue(), rpnElemList.size());
-            //funcArgs = func.getVarVal();
-            if (functions.contains(currentFunc))
-                throw new RuntimeException("Multiple ids: " + currentFunc.getId());
-            functions.add(currentFunc);
+            functions.put(currentFunc.getId(), currentFunc);
             rpnElemList.add(currentFunc);
 
             lastToken = null;
@@ -81,7 +79,7 @@ class SyntaxParser {
             }
             lastToken = null;
 
-            rpnElemList.add(new RPNJumpBack());
+            rpnElemList.add(new RPNJumpBack(rpnElemList.size()));
             currentFunc = null;
 
             funcList();
@@ -185,14 +183,91 @@ class SyntaxParser {
             rpnElemList.add(new RPNNumber(Integer.parseInt(lastToken.getValue())));
             rpnElemList.add(new RPNUnaryOperator(op -> -op));
             lastToken = null;
-        } else if (lastToken.getType().equals(Token.Type.ID) && currentFunc != null) {
-            if (!currentFunc.containsVar(lastToken.getValue()))
-                throw new RuntimeException("Parameter mismatch");
-            rpnElemList.add(new RPNVariable(lastToken.getValue(), currentFunc.getVarVal()));
-            lastToken = null;
+        } else if (lastToken.getType().equals(Token.Type.ID)) {
+
+            //String id = lastToken.getValue();
+            Token nextToken = tokenIterator.next();
+            tokenIterator.previous();
+
+            if (!nextToken.getValue().equals("(")) {
+                if (!currentFunc.containsVar(lastToken.getValue()))
+                    throw new RuntimeException("Parameter mismatch");
+                rpnElemList.add(new RPNVariable(lastToken.getValue(), currentFunc.getVarVal()));
+                lastToken = null;
+            } else {
+                funcArgsList();
+            }
+
         } else {
                 throw new SyntaxException();
         }
+    }
+
+    private void funcArgsList() throws SyntaxException {
+//        if (lastToken == null) {
+//            lastToken = tokenIterator.next();
+//        }
+
+        RPNFunc func = functions.get(lastToken.getValue());
+        lastToken = null;
+        if (!tokenIterator.next().getValue().equals("(")) {
+            throw new SyntaxException();
+        }
+
+        RPNNumber jumpAddr = new RPNNumber(0);
+        rpnElemList.add(jumpAddr);
+        //rpnElemList.add(new RPNNumber(rpnElemList.size() + func.getArgc() + 2));
+
+        int curRpnLen = rpnElemList.size();
+        argNum = 1;
+
+        funcArg();
+
+        if (func.getArgc() != argNum) {
+            throw new SyntaxException();
+        }
+
+        jumpAddr.setValue(rpnElemList.size() + 1);
+
+        if (lastToken == null) {
+            lastToken = tokenIterator.next();
+        }
+
+        if (!lastToken.getValue().equals(")")) {
+            throw new SyntaxException();
+        }
+
+        lastToken = null;
+
+        rpnElemList.add(new RPNJump(func.getAddress() - rpnElemList.size() - 1));
+        rpnElemList.add(new RPNNOP());
+
+    }
+
+    private void funcArg() throws SyntaxException {
+//        if (lastToken == null) {
+//            lastToken = tokenIterator.next();
+//        }
+//        if (!lastToken.getType().equals(Token.Type.NUM)) {
+//            throw new SyntaxException();
+//        }
+        expL();
+
+//        RPNNumber num = new RPNNumber(Integer.parseInt(lastToken.getValue()));
+//        lastToken = tokenIterator.next();
+
+        if (lastToken == null) {
+            lastToken = tokenIterator.next();
+        }
+
+        if (lastToken.getValue().equals(",")) {
+            lastToken = null;
+            argNum++;
+            funcArg();
+        }
+
+//        rpnElemList.add(num);
+
     }
 
     private void exp_L() throws SyntaxException  {

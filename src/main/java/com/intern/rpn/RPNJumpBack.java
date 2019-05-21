@@ -7,6 +7,12 @@ public class RPNJumpBack extends BaseRPNElem {
         return Type.JMP;
     }
 
+    private int address;
+
+    public RPNJumpBack(int address) {
+        this.address = address;
+    }
+
     public void Evaluate() {
         int jmp, op;
         try {
@@ -15,7 +21,7 @@ public class RPNJumpBack extends BaseRPNElem {
         } catch (EmptyStackException e) {
             throw new RuntimeException("Incorrect number of operands");
         }
-        jumpTarget = jmp;
+        jumpTarget = jmp - address;
         pushArg(op);
     }
 }
