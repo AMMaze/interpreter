@@ -19,13 +19,13 @@ class SyntaxParser {
         lastToken = null;
     }
 
-    Interpreter parseTokens(List<Token> tokenList) throws Exception {
+    Interpreter parseTokens(List<Token> tokenList) throws SyntaxException {
         tokenIterator = tokenList.listIterator();
         expL();
         return new Interpreter(rpnElemList);
     }
 
-    private void expL() throws Exception{
+    private void expL() throws SyntaxException{
         if (lastToken == null) {
             lastToken = tokenIterator.next();
         }
@@ -41,7 +41,7 @@ class SyntaxParser {
                 lastToken = tokenIterator.next();
             }
             if (!lastToken.getValue().equals(")")) {
-                throw new Exception("SYNTAX ERROR");
+                throw new SyntaxException();
             }
             lastToken = null;
         } else if (lastToken.getValue().equals("[")) {
@@ -55,7 +55,7 @@ class SyntaxParser {
             if (!lastToken.getValue().equals("]")
                     || !tokenIterator.next().getValue().equals("?")
                     || !tokenIterator.next().getValue().equals("(")) {
-                throw new Exception("SYNTAX ERROR");
+                throw new SyntaxException();
             }
             lastToken = null;
 
@@ -71,7 +71,7 @@ class SyntaxParser {
             if (!lastToken.getValue().equals(")")
                     || !tokenIterator.next().getValue().equals(":")
                     || !tokenIterator.next().getValue().equals("(")) {
-                throw new Exception("SYNTAX ERROR");
+                throw new SyntaxException();
             }
             lastToken = null;
 
@@ -87,7 +87,7 @@ class SyntaxParser {
                 lastToken = tokenIterator.next();
             }
             if (!lastToken.getValue().equals(")")) {
-                throw new Exception("SYNTAX ERROR");
+                throw new SyntaxException();
             }
             lastToken = null;
 
@@ -99,16 +99,16 @@ class SyntaxParser {
         } else if (lastToken.getValue().equals("-")) {
             lastToken = tokenIterator.next();
             if (!lastToken.getType().equals(Token.Type.NUM))
-                throw new Exception("SYNTAX ERROR");
+                throw new SyntaxException();
             rpnElemList.add(new RPNNumber(Integer.parseInt(lastToken.getValue())));
             rpnElemList.add(new RPNUnaryOperator(op -> -op));
             lastToken = null;
         }else {
-            throw new Exception("SYNTAX ERROR");
+            throw new SyntaxException();
         }
     }
 
-    private void exp_L() throws Exception  {
+    private void exp_L() throws SyntaxException  {
         if (lastToken == null) {
             lastToken = tokenIterator.next();
         }
@@ -136,12 +136,12 @@ class SyntaxParser {
         }
     }
 
-    private void expE () throws Exception  {
+    private void expE () throws SyntaxException  {
         expT();
         exp_E();
     }
 
-    private void exp_E() throws Exception  {
+    private void exp_E() throws SyntaxException  {
         if (lastToken == null) {
             lastToken = tokenIterator.next();
         }
@@ -163,12 +163,12 @@ class SyntaxParser {
     }
 
 
-    private void expT() throws Exception  {
+    private void expT() throws SyntaxException  {
         expF();
         exp_T();
     }
 
-    private void exp_T() throws Exception {
+    private void exp_T() throws SyntaxException {
         if (lastToken == null) {
             lastToken = tokenIterator.next();
         }
@@ -196,7 +196,7 @@ class SyntaxParser {
         }
     }
 
-    private void expF() throws Exception {
+    private void expF() throws SyntaxException {
 
 //        if (lastToken == null) {
 //            lastToken = tokenIterator.next();
@@ -208,7 +208,7 @@ class SyntaxParser {
 //        } else if (lastToken.getValue().equals("-")) {
 //            lastToken = tokenIterator.next();
 //            if (!lastToken.getType().equals(Token.Type.NUM))
-//                throw new Exception("SYNTAX ERROR");
+//                throw new SyntaxException("SYNTAX ERROR");
 //            rpnElemList.add(new RPNNumber(Integer.parseInt(lastToken.getValue())));
 //            rpnElemList.add(new RPNUnaryOperator(op -> -op));
 //            lastToken = null;

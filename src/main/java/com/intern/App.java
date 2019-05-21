@@ -5,8 +5,7 @@ import java.io.IOException;
 
 public class App 
 {
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ) {
         Tokenizer tokenizer = new Tokenizer();
         try {
             tokenizer.parseInput();
@@ -22,8 +21,10 @@ public class App
             e.printStackTrace();
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
-        } catch (Exception e) {
+        } catch (SyntaxException e) {
             System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("RUNTIME ERROR ");
         }
 
     }

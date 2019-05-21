@@ -28,13 +28,16 @@ public class Tokenizer {
             ))
     );
 
+    private ArrayList<String> inputStorage;
+
     private List<Token> tokenList;
 
     Tokenizer() {
+        this.inputStorage = new ArrayList<>();
         this.tokenList = new LinkedList<>();
     }
 
-    private Token.Type checkType (String c) throws Exception{
+    private Token.Type checkType (String c) throws SyntaxException{
         if (SET_OF_BOP.contains(c))
             return Token.Type.BOP;
         if (SET_OF_UOP.contains(c))
@@ -47,16 +50,17 @@ public class Tokenizer {
             Integer.parseInt(c);
             return Token.Type.NUM;
         } catch (NumberFormatException e) {
-            throw new Exception("SYNTAX ERROR");
+            throw new SyntaxException();
         }
     }
 
-    void parseInput () throws IOException, Exception {
+    void parseInput () throws IOException, SyntaxException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         String line;
         int lineNumber = 0;
         while ((line = reader.readLine()) != null) {
+            inputStorage.add(line);
             String[] arr = line.split(String.format(WITH_DELIMITER, DELIMS));
             for (String it: arr) {
                 tokenList.add(new Token(it, checkType(it), lineNumber));
