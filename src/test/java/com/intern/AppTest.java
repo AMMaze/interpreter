@@ -280,4 +280,52 @@ public class AppTest
         }
     }
 
+    @Test
+    public void testFunctionErrors() {
+        InputStream stdin = System.in;
+        PrintStream stdout = System.out;
+        try {
+            System.setIn(new ByteArrayInputStream
+                    (("g(x)={(a+b)}\n" +
+                            "g(10)").getBytes()));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream ps = new PrintStream(baos);
+            System.setOut(ps);
+            App.main(null);
+            Assert.assertEquals("PARAMETER NOT FOUND a:0", baos.toString().trim());
+        } finally {
+            System.setIn(stdin);
+            System.setOut(stdout);
+        }
+
+        try {
+            System.setIn(new ByteArrayInputStream
+                    (("g(x)={(x+10)}\n" +
+                            "f(10)").getBytes()));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream ps = new PrintStream(baos);
+            System.setOut(ps);
+            App.main(null);
+            Assert.assertEquals("FUNCTION NOT FOUND f:1", baos.toString().trim());
+        } finally {
+            System.setIn(stdin);
+            System.setOut(stdout);
+        }
+
+        try {
+            System.setIn(new ByteArrayInputStream
+                    (("g(x)={(x+10)}\n" +
+                            "g(10,(2*3))").getBytes()));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream ps = new PrintStream(baos);
+            System.setOut(ps);
+            App.main(null);
+            Assert.assertEquals("ARGUMENT NUMBER MISMATCH g:1", baos.toString().trim());
+        } finally {
+            System.setIn(stdin);
+            System.setOut(stdout);
+        }
+
+    }
+
 }

@@ -62,9 +62,14 @@ class SyntaxParser {
             if (lastToken == null) {
                 lastToken = tokenIterator.next();
             }
-            if (!lastToken.getValue().equals(")")
-                    || !tokenIterator.next().getValue().equals("=")
-                    || !tokenIterator.next().getValue().equals("{")) {
+            if (!lastToken.getValue().equals(")")) {
+                throw new SyntaxException();
+            }
+            if (!(lastToken = tokenIterator.next()).getValue().equals("=")) {
+                throw new RuntimeException("FUNCTION NOT FOUND "
+                        + lastToken.getValue() + ":" + lastToken.getLine());
+            }
+            if (!tokenIterator.next().getValue().equals("{")) {
                 throw new SyntaxException();
             }
             lastToken = null;
@@ -91,6 +96,12 @@ class SyntaxParser {
             lastToken = tokenIterator.next();
         }
         if (!lastToken.getType().equals(Token.Type.ID)) {
+            tokenIterator.previous();
+            tokenIterator.previous();
+            if(lastToken.getType().equals(Token.Type.NUM))
+                throw new RuntimeException("FUNCTION NOT FOUND "
+                        + tokenIterator.previous().getValue()
+                        + ":" + lastToken.getLine());
             throw new SyntaxException();
         }
 
@@ -157,7 +168,6 @@ class SyntaxParser {
 
             RPNJump jumpAfterElse = new RPNJump();
             rpnElemList.add(jumpAfterElse);
-            //rpnElemList.add(new RPNNOP());
             int jumpAfterElseIdx = rpnElemList.size();
             jumpToElse.setJump(jumpAfterElseIdx - jumpToElseIdx);
 
@@ -185,13 +195,13 @@ class SyntaxParser {
             lastToken = null;
         } else if (lastToken.getType().equals(Token.Type.ID)) {
 
-            //String id = lastToken.getValue();
             Token nextToken = tokenIterator.next();
             tokenIterator.previous();
 
             if (!nextToken.getValue().equals("(")) {
                 if (!currentFunc.containsVar(lastToken.getValue()))
-                    throw new RuntimeException("Parameter mismatch");
+                    throw new RuntimeException("PARAMETER NOT FOUND "
+                            + lastToken.getValue() + ":" + lastToken.getLine());
                 rpnElemList.add(new RPNVariable(lastToken.getValue(), currentFunc.getVarVal()));
                 lastToken = null;
             } else {
@@ -204,11 +214,13 @@ class SyntaxParser {
     }
 
     private void funcArgsList() throws SyntaxException {
-//        if (lastToken == null) {
-//            lastToken = tokenIterator.next();
-//        }
+
 
         RPNFunc func = functions.get(lastToken.getValue());
+        if (func == null) {
+            throw new RuntimeException("FUNCTION NOT FOUND "
+                    + lastToken.getValue() + ":" + lastToken.getLine());
+        }
         lastToken = null;
         if (!tokenIterator.next().getValue().equals("(")) {
             throw new SyntaxException();
@@ -224,7 +236,8 @@ class SyntaxParser {
         funcArg();
 
         if (func.getArgc() != argNum) {
-            throw new SyntaxException();
+            throw new RuntimeException("ARGUMENT NUMBER MISMATCH "
+                    + func.getId() + ":" + tokenIterator.previous().getLine());
         }
 
         jumpAddr.setValue(rpnElemList.size() + 1);
