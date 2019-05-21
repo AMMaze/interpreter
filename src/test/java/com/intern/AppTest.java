@@ -127,7 +127,7 @@ public class AppTest
         InputStream stdin = System.in;
         PrintStream stdout = System.out;
         try {
-            System.setIn(new ByteArrayInputStream("(-1)".getBytes()));
+            System.setIn(new ByteArrayInputStream("-1".getBytes()));
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             PrintStream ps = new PrintStream(baos);
             System.setOut(ps);
@@ -167,6 +167,93 @@ public class AppTest
             System.setOut(ps);
             App.main(null);
             Assert.assertEquals("Result: -14", baos.toString().trim());
+        } finally {
+            System.setIn(stdin);
+            System.setOut(stdout);
+        }
+    }
+
+    @Test
+    public void testPriority() {
+        InputStream stdin = System.in;
+        PrintStream stdout = System.out;
+        try {
+            System.setIn(new ByteArrayInputStream("((2+3)<4)".getBytes()));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream ps = new PrintStream(baos);
+            System.setOut(ps);
+            App.main(null);
+            Assert.assertEquals("Result: 0", baos.toString().trim());
+        } finally {
+            System.setIn(stdin);
+            System.setOut(stdout);
+        }
+
+        try {
+            System.setIn(new ByteArrayInputStream("(-5>4)".getBytes()));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream ps = new PrintStream(baos);
+            System.setOut(ps);
+            App.main(null);
+            Assert.assertEquals("Result: 0", baos.toString().trim());
+        } finally {
+            System.setIn(stdin);
+            System.setOut(stdout);
+        }
+    }
+
+    @Test
+    public void testConditional() {
+        InputStream stdin = System.in;
+        PrintStream stdout = System.out;
+        try {
+            System.setIn(new ByteArrayInputStream("[(3>2)]?((1+3)):((4*3))".getBytes()));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream ps = new PrintStream(baos);
+            System.setOut(ps);
+            App.main(null);
+            Assert.assertEquals("Result: 4", baos.toString().trim());
+        } finally {
+            System.setIn(stdin);
+            System.setOut(stdout);
+        }
+    }
+
+    @Test
+    public void testSyntaxError() {
+        InputStream stdin = System.in;
+        PrintStream stdout = System.out;
+        try {
+            System.setIn(new ByteArrayInputStream("$".getBytes()));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream ps = new PrintStream(baos);
+            System.setOut(ps);
+            App.main(null);
+            Assert.assertEquals("SYNTAX ERROR", baos.toString().trim());
+        } finally {
+            System.setIn(stdin);
+            System.setOut(stdout);
+        }
+
+        try {
+            System.setIn(new ByteArrayInputStream("(-1))".getBytes()));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream ps = new PrintStream(baos);
+            System.setOut(ps);
+            App.main(null);
+            Assert.assertEquals("SYNTAX ERROR", baos.toString().trim());
+        } finally {
+            System.setIn(stdin);
+            System.setOut(stdout);
+        }
+
+        try {
+            System.setIn(new ByteArrayInputStream("((-1)".getBytes()));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream ps = new PrintStream(baos);
+            System.setOut(ps);
+            App.main(null);
+            Assert.assertEquals("SYNTAX ERROR", baos.toString().trim());
         } finally {
             System.setIn(stdin);
             System.setOut(stdout);

@@ -6,6 +6,7 @@ import com.intern.rpn.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 class SyntaxParser {
 
@@ -21,7 +22,13 @@ class SyntaxParser {
 
     Interpreter parseTokens(List<Token> tokenList) throws SyntaxException {
         tokenIterator = tokenList.listIterator();
-        expL();
+        try {
+            expL();
+        } catch (NoSuchElementException e) {
+            throw new SyntaxException();
+        }
+        if (tokenIterator.hasNext())
+            throw new SyntaxException();
         return new Interpreter(rpnElemList);
     }
 

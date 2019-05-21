@@ -9,7 +9,7 @@ public class App
         Tokenizer tokenizer = new Tokenizer();
         try {
             tokenizer.parseInput();
-            System.out.println(tokenizer.toString());
+//            System.out.println(tokenizer.toString());
 
             SyntaxParser parser = new SyntaxParser();
 
@@ -24,7 +24,7 @@ public class App
         } catch (SyntaxException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {
-            System.out.println("RUNTIME ERROR ");
+            System.out.println("RUNTIME ERROR");
         }
 
     }
