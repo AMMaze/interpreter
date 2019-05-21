@@ -8,7 +8,8 @@ public abstract class BaseRPNElem {
         OP,
         JMP,
         VAR,
-        FUN
+        FUN,
+        CALL
     }
 
     protected int jumpTarget;

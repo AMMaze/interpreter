@@ -11,7 +11,7 @@ public class RPNVariable extends BaseRPNElem {
     private String id;
     private Map<String, Integer> varList;
 
-    RPNVariable(String name, Map<String, Integer> vars) {
+    public RPNVariable(String name, Map<String, Integer> vars) {
         this.id = name;
         this.varList = vars;
     }

@@ -3,37 +3,108 @@ package com.intern;
 
 import com.intern.rpn.*;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 class SyntaxParser {
 
     private List<BaseRPNElem> rpnElemList;
     private ListIterator<Token> tokenIterator;
+    //private List<List<BaseRPNElem>> functionsList;
+    private Set<RPNFunc> functions;
     private Token lastToken;
+    private int startProg;
+    private Map<String, Integer> funcArgs;
+    private RPNFunc currentFunc;
 
     SyntaxParser() {
         rpnElemList = new LinkedList<>();
         tokenIterator = null;
         lastToken = null;
+        startProg = 0;
+        funcArgs = null;
+        currentFunc = null;
+        functions = new HashSet<>();
     }
 
     Interpreter parseTokens(List<Token> tokenList) throws SyntaxException {
         tokenIterator = tokenList.listIterator();
         try {
+            funcList();
+            startProg = rpnElemList.size();
             expL();
         } catch (NoSuchElementException e) {
             throw new SyntaxException();
         }
         if (tokenIterator.hasNext())
             throw new SyntaxException();
-        return new Interpreter(rpnElemList);
+        return new Interpreter(rpnElemList, startProg);
     }
 
     private void funcList() throws SyntaxException {
+        if (lastToken == null) {
+            lastToken = tokenIterator.next();
+        }
 
+        if (lastToken.getType().equals(Token.Type.ID)) {
+
+            currentFunc = new RPNFunc(lastToken.getValue(), rpnElemList.size());
+            //funcArgs = func.getVarVal();
+            if (functions.contains(currentFunc))
+                throw new RuntimeException("Multiple ids: " + currentFunc.getId());
+            functions.add(currentFunc);
+            rpnElemList.add(currentFunc);
+
+            lastToken = null;
+            if(!tokenIterator.next().getValue().equals("(")) {
+                throw new SyntaxException();
+            }
+
+            params();
+
+            if (lastToken == null) {
+                lastToken = tokenIterator.next();
+            }
+            if (!lastToken.getValue().equals(")")
+                    || !tokenIterator.next().getValue().equals("=")
+                    || !tokenIterator.next().getValue().equals("{")) {
+                throw new SyntaxException();
+            }
+            lastToken = null;
+
+            expL();
+
+            if (lastToken == null) {
+                lastToken = tokenIterator.next();
+            }
+            if (!lastToken.getValue().equals("}")) {
+                throw new SyntaxException();
+            }
+            lastToken = null;
+
+            rpnElemList.add(new RPNJumpBack());
+            currentFunc = null;
+
+            funcList();
+        }
+    }
+
+    private void params() throws SyntaxException {
+        if (lastToken == null) {
+            lastToken = tokenIterator.next();
+        }
+        if (!lastToken.getType().equals(Token.Type.ID)) {
+            throw new SyntaxException();
+        }
+
+        currentFunc.putParam(lastToken.getValue());
+
+
+        lastToken = tokenIterator.next();
+
+        if (lastToken.getValue().equals(",")) {
+            lastToken = null;
+            params();
+        }
     }
 
     private void expL() throws SyntaxException{
@@ -114,8 +185,13 @@ class SyntaxParser {
             rpnElemList.add(new RPNNumber(Integer.parseInt(lastToken.getValue())));
             rpnElemList.add(new RPNUnaryOperator(op -> -op));
             lastToken = null;
-        }else {
-            throw new SyntaxException();
+        } else if (lastToken.getType().equals(Token.Type.ID) && currentFunc != null) {
+            if (!currentFunc.containsVar(lastToken.getValue()))
+                throw new RuntimeException("Parameter mismatch");
+            rpnElemList.add(new RPNVariable(lastToken.getValue(), currentFunc.getVarVal()));
+            lastToken = null;
+        } else {
+                throw new SyntaxException();
         }
     }
 
